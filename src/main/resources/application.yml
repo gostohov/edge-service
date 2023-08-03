@@ -8,10 +8,10 @@ server:
 spring:
   application:
     name: edge-service
-  config:
-    import: "optional:configserver:"
   lifecycle:
     timeout-per-shutdown-phase: 15s
+  config:
+    import: "optional:configserver:"
   cloud:
     config:
       uri: http://localhost:8888
@@ -94,20 +94,7 @@ spring:
         provider:
           keycloak:
             issuer-uri: http://localhost:8080/realms/PolarBookshop
-management:
-  endpoints:
-    web:
-      exposure:
-        include: refresh,health
-  endpoint:
-    health:
-      show-details: always
-      show-components: always
-      probes:
-        enabled: true
-      group:
-        readiness:
-          include: readinessState,redis
+
 resilience4j:
   circuitbreaker:
     configs:
@@ -125,3 +112,18 @@ logging:
     circuitbreaker: io.github.resilience4j,org.springframework.cloud.circuitbreaker
   level:
     circuitbreaker: info
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: configprops, env, gateway, health, heapdump, info, loggers, mappings, prometheus
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,redis
